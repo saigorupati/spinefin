@@ -19,6 +19,15 @@ struct PreviewHost: View {
     private var env: [String: String] { ProcessInfo.processInfo.environment }
     private var serverURL: String { env["SPINEFIN_PREVIEW_URL"] ?? "" }
 
+    /// Optional title substring (`SPINEFIN_PREVIEW_BOOK`) to pin which book the
+    /// detail / now-playing screens render; falls back to the first book.
+    private var selectedBook: Book? {
+        guard let match = env["SPINEFIN_PREVIEW_BOOK"]?.lowercased(), !match.isEmpty else {
+            return library.books.first
+        }
+        return library.books.first { $0.title.lowercased().contains(match) } ?? library.books.first
+    }
+
     var body: some View {
         Group {
             if ready {
@@ -43,7 +52,7 @@ struct PreviewHost: View {
         switch name {
         case "detail":
             NavigationStack {
-                if let book = library.books.first {
+                if let book = selectedBook {
                     BookDetailView(book: book)
                 } else {
                     Text("No books").foregroundStyle(.secondary)
@@ -83,7 +92,7 @@ struct PreviewHost: View {
                 library.downloads = downloads
                 player.settings = settings
                 await library.load()
-                if name == "nowplaying", let book = library.books.first {
+                if name == "nowplaying", let book = selectedBook {
                     player.play(book, using: library)
                 }
             }

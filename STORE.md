@@ -34,12 +34,13 @@ Draft metadata + checklist for submitting Spinefin to the App Store.
 **Privacy nutrition label:** Data Not Collected. No tracking.
 
 ## Screenshots
-Drafts are in `marketing/` at 1206×2622 (iPhone 16 Pro, 6.3").
-**App Store Connect requires 6.9" (1320×2868).** Regenerate on that simulator before upload:
-```sh
-xcrun simctl boot "iPhone 16 Pro Max"
-# then re-run the capture (see scripts/ or the preview harness: SPINEFIN_PREVIEW=library|detail|nowplaying|downloads)
-```
+Two sets, captured from the live preview harness (`SPINEFIN_PREVIEW=library|detail|nowplaying|downloads`):
+- `marketing/01–04` — **1206×2622** (6.3", iPhone 17 Pro)
+- `marketing/6.9/01–04` — **1320×2868** (6.9", iPhone 17 Pro Max) — **this is the set App Store Connect requires**
+
+To regenerate: boot the target simulator, install the Debug build, then for each screen launch
+`com.spinefin.app` with `SPINEFIN_PREVIEW=<screen>` plus `SPINEFIN_PREVIEW_URL/_USER/_PASS`, and
+`xcrun simctl io <udid> screenshot <path>.png`.
 
 ## Signing (needs your Apple Developer account — $99/yr)
 1. In **App Store Connect**, register the bundle id `com.spinefin.app` and create the app record.
@@ -64,7 +65,7 @@ xcrun altool --upload-app -f build/export/Spinefin.ipa -t ios  # or use Transpor
 - [ ] Apple Developer Program membership active
 - [ ] Bundle id `com.spinefin.app` registered; app record created
 - [ ] Signing team set; Release archive builds
-- [ ] 6.9" screenshots regenerated
+- [x] 6.9" screenshots regenerated (`marketing/6.9/`)
 - [ ] Support URL + privacy policy URL added
 - [ ] App Review note: explain it requires a user's own Jellyfin server; provide a demo server + test login for review
 - [ ] Consider: background-download continuation before 1.0 (currently downloads run while the app is active)
