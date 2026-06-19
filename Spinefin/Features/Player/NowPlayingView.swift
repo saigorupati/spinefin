@@ -26,9 +26,11 @@ struct NowPlayingView: View {
             )
             .blur(radius: 60).scaleEffect(1.6).ignoresSafeArea()
 
+            // Static tint over the blurred gradient. A live `.ultraThinMaterial` here
+            // re-samples the moving backdrop during the cover's slide-down dismiss,
+            // which shows up as a band of color sliding out of sync — so we tint directly.
             Rectangle()
-                .fill(p.isDark ? Color.black.opacity(0.62) : Color(hex: "F4EEE4").opacity(0.55))
-                .background(.ultraThinMaterial)
+                .fill(p.isDark ? Color.black.opacity(0.74) : Color(hex: "F4EEE4").opacity(0.7))
                 .ignoresSafeArea()
 
             VStack(spacing: 0) {

@@ -1,4 +1,5 @@
 import SwiftUI
+import UIKit
 import Observation
 import AVFoundation
 import MediaPlayer
@@ -37,6 +38,10 @@ final class PlayerModel {
     private var endObserver: NSObjectProtocol?
     private var sleepTask: Task<Void, Never>?
     private var remoteConfigured = false
+
+    // Lock-screen / Control Center artwork, fetched lazily per book.
+    private var nowPlayingArtwork: MPMediaItemArtwork?
+    private var artworkURL: URL?
 
     // Progress persistence (local — Jellyfin can't store resume for Music libraries)
     private weak var library: LibraryStore?
@@ -94,6 +99,7 @@ final class PlayerModel {
         chapters = []
         position = 0
         duration = 0
+        loadArtwork(for: book)
         do {
             let resolved = try await library.playable(for: book)
             configure(with: resolved)
@@ -118,6 +124,7 @@ final class PlayerModel {
         current = book
         seededFraction = fraction
         isPlaying = false
+        loadArtwork(for: book)
     }
 
     private func configure(with resolved: PlayableBook) {
@@ -357,6 +364,30 @@ final class PlayerModel {
         if chapters.indices.contains(currentChapterIndex) {
             info[MPMediaItemPropertyAlbumTitle] = chapters[currentChapterIndex].title
         }
+        if let nowPlayingArtwork {
+            info[MPMediaItemPropertyArtwork] = nowPlayingArtwork
+        }
         MPNowPlayingInfoCenter.default().nowPlayingInfo = info
+    }
+
+    /// Fetches the cover image for the lock screen / Control Center once per book.
+    private func loadArtwork(for book: Book) {
+        guard let url = book.coverURL else {
+            nowPlayingArtwork = nil
+            artworkURL = nil
+            return
+        }
+        guard url != artworkURL else { return }   // already loaded / loading this cover
+        artworkURL = url
+        nowPlayingArtwork = nil
+        Task { [weak self] in
+            guard let (data, _) = try? await URLSession.shared.data(from: url),
+                  let image = UIImage(data: data) else { return }
+            await MainActor.run {
+                guard let self, self.artworkURL == url else { return }   // book changed mid-fetch
+                self.nowPlayingArtwork = MPMediaItemArtwork(boundsSize: image.size) { _ in image }
+                self.updateNowPlayingInfo()
+            }
+        }
     }
 }

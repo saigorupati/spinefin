@@ -31,6 +31,7 @@ struct CoverArt: View {
                 } placeholder: {
                     gradient
                 }
+                .id(imageURL)   // force a fresh load when the URL changes on view reuse (e.g. list reorder)
             } else {
                 gradient
                 StripeTexture()
