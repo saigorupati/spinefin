@@ -1,0 +1,7 @@
+# Certificates + provisioning profiles live in a separate PRIVATE git repo,
+# encrypted with MATCH_PASSWORD. Set MATCH_GIT_URL in your environment.
+git_url(ENV["MATCH_GIT_URL"])
+storage_mode("git")
+
+type("appstore")
+app_identifier(["com.spinefin.app"])
