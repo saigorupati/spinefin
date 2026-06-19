@@ -15,21 +15,22 @@ Draft metadata + checklist for submitting Spinefin to the App Store.
 - **Subtitle (≤30):** Audiobooks for Jellyfin
 - **Category:** Books (primary), Entertainment (secondary)
 - **Age rating:** 4+
-- **Promotional text:** A warm, focused audiobook player for your self-hosted Jellyfin library — resume, chapters, offline, and a beautiful Now Playing screen.
+- **Promotional text:** Your Jellyfin audiobooks, done properly on iPhone: real chapters, resume across every book, offline downloads, and playback controls that actually work.
 - **Keywords (≤100):** jellyfin,audiobook,audiobooks,player,offline,self-hosted,books,listening,chapters,stream
-- **Support URL / Marketing URL:** _TODO — add a real URL (required)._
+- **Support URL:** https://spinefin.xcfmedia.com/support.html
+- **Marketing URL:** https://spinefin.xcfmedia.com/
+- **Privacy Policy URL:** https://spinefin.xcfmedia.com/privacy.html
 
 **Description (draft):**
-> Spinefin turns your self-hosted Jellyfin server into a first-class audiobook player.
+> Spinefin plays the audiobooks on your own Jellyfin server. Point it at your server, sign in with your password or Quick Connect, and your whole library shows up with cover art, search, and sorting.
 >
-> • Connect to any Jellyfin server (username/password or Quick Connect)
-> • Browse your audiobooks with cover art, search, and sort
-> • Chapters — including chapters embedded in single-file .m4b books that Jellyfin doesn't expose
-> • Resume where you left off, with a Continue Listening shelf
-> • Background playback, lock-screen & Bluetooth controls, variable speed, sleep timer, bookmarks
-> • Download books for offline listening
+> It gets the audiobook details right. Chapters work, including the ones hidden inside single-file .m4b books that Jellyfin itself won't surface. It remembers where you stopped in every book and keeps a Continue Listening shelf up front. Audio keeps playing in the background and on the lock screen, with Bluetooth controls, adjustable speed, a sleep timer, and bookmarks.
 >
-> Self-hosted and private — your library never leaves your server.
+> Heading somewhere without a connection? Download a book and play it fully offline.
+>
+> There's no account to create, no ads, and no tracking. Spinefin only ever talks to the server you choose, and your library never leaves it.
+>
+> Note: Spinefin requires your own Jellyfin server.
 
 **Privacy nutrition label:** Data Not Collected. No tracking.
 
