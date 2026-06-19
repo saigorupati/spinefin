@@ -37,18 +37,9 @@ header {
   width: 44px;
   height: 44px;
   border-radius: 11px;
-  background: linear-gradient(160deg, #f0a849, #c97a23);
-  display: grid;
-  place-items: center;
   flex: none;
+  display: block;
   box-shadow: 0 4px 18px rgba(232, 154, 60, 0.25);
-}
-.mark span {
-  width: 7px;
-  height: 22px;
-  background: #2a1d10;
-  border-radius: 3px;
-  box-shadow: 11px 0 0 #2a1d10, -11px 0 0 #2a1d10;
 }
 
 .brand { font-size: 13px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--accent); font-weight: 700; }
