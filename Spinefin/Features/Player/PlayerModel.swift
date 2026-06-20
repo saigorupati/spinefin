@@ -383,11 +383,20 @@ final class PlayerModel {
         Task { [weak self] in
             guard let (data, _) = try? await URLSession.shared.data(from: url),
                   let image = UIImage(data: data) else { return }
+            let artwork = Self.makeArtwork(from: image)
             await MainActor.run {
                 guard let self, self.artworkURL == url else { return }   // book changed mid-fetch
-                self.nowPlayingArtwork = MPMediaItemArtwork(boundsSize: image.size) { _ in image }
+                self.nowPlayingArtwork = artwork
                 self.updateNowPlayingInfo()
             }
         }
+    }
+
+    /// Wraps an image as artwork. `nonisolated` on purpose: MediaPlayer invokes the
+    /// request handler on its own background queue, so the closure must NOT inherit
+    /// `PlayerModel`'s main-actor isolation — otherwise Swift's isolation check traps
+    /// (SIGILL) when the handler runs off the main thread.
+    nonisolated private static func makeArtwork(from image: UIImage) -> MPMediaItemArtwork {
+        MPMediaItemArtwork(boundsSize: image.size) { _ in image }
     }
 }
