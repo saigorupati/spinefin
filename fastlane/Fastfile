@@ -35,6 +35,11 @@ platform :ios do
 
   desc "Build and upload a new build to TestFlight"
   lane :beta do
+    # On CI, create a dedicated unlocked keychain for the signing identity.
+    # Without this, codesign imports into the login keychain and hangs forever on
+    # a keychain-access prompt that never appears on a headless runner.
+    setup_ci if is_ci
+
     api_key = asc_api_key
 
     # Fetch the distribution cert + provisioning profile. Locally (first run) this
